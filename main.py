@@ -74,7 +74,9 @@ def main(user, password, user_id, auth_token, server_url, dump_file):
 
             users_id_set = set()
 
-            for channel_id in extract_id(channels["channels"]):
+            print("Channels")
+
+            for channel_id in extract_id(channels["channels"] if 'channels' in channels else []):
                 counters = rocket.channels_counters(channel_id).json()
                 json.dump(counters, dump)
                 pprint(f"{channel_id} : {counters}")
@@ -136,7 +138,9 @@ def main(user, password, user_id, auth_token, server_url, dump_file):
                     files_endpoints = [file["url"] for file in files["files"]]
                     pprint(f"Files : {files_endpoints}")
 
-            for group_id in extract_id(groups["groups"]):
+            print("Groups")
+
+            for group_id in extract_id(groups["groups"] if 'groups' in groups else []):
                 info = rocket.groups_info(group_id).json()
                 json.dump(info, dump)
                 pprint(info)
@@ -183,6 +187,8 @@ def main(user, password, user_id, auth_token, server_url, dump_file):
                 if "files" in files:
                     files_endpoints = [file["url"] for file in files["files"]]
                     pprint(f"Files : {files_endpoints}")
+
+            print("Users")
 
             for user_id in users_id_set:
                 info = rocket.users_info(user_id).json()
